@@ -1,0 +1,20 @@
+{
+  "author": "Nurdin, Amar",
+  "manifest_version": 3,
+  "name": "Currency to IDR",
+  "version": "1.0.0",
+  "description": "Covert selected text currency to IDR.",
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "contextMenus"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "host_permissions": [
+    "https://v6.exchangerate-api.com/*",
+    "https://api.currencyfreaks.com/*"
+  ]
+}
