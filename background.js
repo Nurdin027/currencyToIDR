@@ -111,7 +111,7 @@ chrome.runtime.onInstalled.addListener((e) => {
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === "read-text") {
         let raw = info.selectionText;
-        let plain = raw.replace(/\D/g, '');
+        let plain = raw.replace(/[^\d.]/g, "");
         const res = await convertToIDR(plain)
         let idr = res[0],
             updated = res[1]
