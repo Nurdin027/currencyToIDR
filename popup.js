@@ -1,12 +1,14 @@
-document.getElementById("btnRead").addEventListener("click", async () => {
-    const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+chrome.storage.sync.get(['exchangerate', 'exchangerateCount', 'currencyfreaks', 'currencyfreaksCount'], (res) => {
+    if (!res.exchangerate || !res.exchangerate) {
+        chrome.runtime.openOptionsPage();
+    }
 
-    chrome.scripting.executeScript({
-        target: {tabId: tab.id},
-        func: () => window.getSelection().toString(),
-    }, (results) => {
-        if (results && results[0]?.result) {
-            document.getElementById("output").innerText = results[0].result;
-        }
-    });
+    document.getElementById('exchangerateCount').textContent = res.exchangerateCount || 0;
+    document.getElementById('currencyfreaksCount').textContent = res.currencyfreaksCount || 0;
 });
+
+document.getElementById('openOptions').addEventListener('click', () => {
+    chrome.runtime.openOptionsPage();
+});
+
+

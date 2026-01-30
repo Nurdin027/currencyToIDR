@@ -4,11 +4,19 @@
   "name": "Currency to IDR",
   "version": "1.0.0",
   "description": "Covert selected text currency to IDR.",
+  "action": {
+    "default_popup": "popup.html"
+  },
   "permissions": [
     "scripting",
     "activeTab",
+    "storage",
     "contextMenus"
   ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
   "background": {
     "service_worker": "background.js",
     "type": "module"
