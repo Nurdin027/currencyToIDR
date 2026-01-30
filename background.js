@@ -1,15 +1,13 @@
 let key = {
     exchangerate: "",
-    currencyfreaks: "",
     exchangerateCount: 0,
-    currencyfreaksCount: 0,
     timeout: "",
     dollarToIdr: "",
     lastUpdate: "",
     nextUpdate: "",
 }
 
-chrome.storage.sync.get(['exchangerate', 'currencyfreaks', 'exchangerateCount', 'currencyfreaksCount', 'timeout', 'dollarToIdr', 'lastUpdate', 'nextUpdate'], (res) => {
+chrome.storage.sync.get(['exchangerate', 'exchangerateCount', 'timeout', 'dollarToIdr', 'lastUpdate', 'nextUpdate'], (res) => {
     key = res;
 });
 
@@ -48,30 +46,11 @@ async function convertToIDR(plain) {
             });
         } catch (err) {
             console.warn("Error: " + err);
-            return await convertToIDR2(plain);
         }
     } else {
         hasil = key['dollarToIdr'] * plain
     }
     return [hasil, tgl]
-}
-
-async function convertToIDR2(plain) {
-    const url = `https://api.currencyfreaks.com/v2.0/rates/latest?apikey=${key['currencyfreaks']}`
-    try {
-        const response = await fetch(url, {headers: {"Content-Type": "application/json"}})
-        let data = await response.json(),
-            idr = data['rates']['IDR'],
-            tgl = new Date(data['date'])
-        idr = parseInt(idr) * parseInt(plain)
-        chrome.storage.sync.get(['currencyfreaksCount'], (res) => {
-            let count = (res.currencyfreaksCount || 0) + 1;
-            chrome.storage.sync.set({currencyfreaksCount: count});
-        });
-        return [idr, tgl]
-    } catch (err) {
-        return "Error: " + err
-    }
 }
 
 function displayResultOnPage(resultText, timeout) {
